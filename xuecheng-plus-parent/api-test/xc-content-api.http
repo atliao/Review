@@ -39,22 +39,22 @@ POST {{content_host}}/content/course
 Content-Type: application/json
 
 {
+  "name": "liao的测试课",
+  "users": "初级人员",
+  "tags": "tagstagstags",
+  "mt": "1-1",
+  "st": "1-1-1",
+  "grade": "204001",
+  "teachmode": "200002",
+  "description": "java网络编程高级(liao)",
+  "pic": "fdsf",
   "charge": "201001",
-  "price": 60,
+  "price": -60,
   "originalPrice":100,
   "qq": "22333",
   "wechat": "223344",
   "phone": "13333333",
-  "validDays": 365,
-  "mt": "",
-  "st": "1-1-1",
-  "name": "",
-  "pic": "fdsf",
-  "teachmode": "200002",
-  "users": "初级人员",
-  "tags": "tagstagstags",
-  "grade": "204001",
-  "description": "java网络编程高级(liao)"
+  "validDays": 365
 }
 
 ###
