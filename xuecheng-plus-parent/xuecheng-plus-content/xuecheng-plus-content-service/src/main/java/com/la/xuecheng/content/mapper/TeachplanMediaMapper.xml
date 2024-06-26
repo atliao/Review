@@ -19,4 +19,42 @@
         id, media_id, teachplan_id, course_id, media_fileName, create_date, create_people, change_people
     </sql>
 
+    <resultMap id="childrenNodeMap" type="com.la.xuecheng.content.model.dto.TeachPlanTreeNode">
+        <id column="id" property="id"/>
+        <result column="pname" property="pname"/>
+        <result column="parentid" property="parentid" />
+        <result column="grade" property="grade" />
+        <result column="mediaType" property="mediaType" />
+        <result column="stratTime" property="startTime" />
+        <result column="endTime" property="endTime" />
+        <result column="orderby" property="orderby" />
+        <result column="courseId" property="courseId" />
+        <result column="coursePubId" property="coursePubId" />
+        <association property="teachplanMedia" javaType="com.la.xuecheng.content.model.po.TeachplanMedia">
+            <id column="teachplanMeidaId" property="id"/>
+            <result column="mediaFilename" property="mediaFilename"/>
+            <result column="mediaId" property="mediaId"/>
+        </association>
+    </resultMap>
+
+    <select id="getChildrenNodes" parameterType="long" resultMap="childrenNodeMap">
+        select
+            t.id            id,
+            t.pname         pname,
+            t.parentid      parentid,
+            t.grade         grade,
+            t.media_type    mediaType,
+            t.start_time    stratTime,
+            t.end_time      endTime,
+            t.orderby       orderby,
+            t.course_id     courseId,
+            t.course_pub_id coursePubId,
+            m.media_fileName mediaFilename,
+            m.id             teachplanMeidaId,
+            m.media_id       mediaId
+        from teachplan t left join teachplan_media m on t.id = m.teachplan_id
+	    where t.parentid = #{parentId}
+		order by t.orderby
+    </select>
+
 </mapper>

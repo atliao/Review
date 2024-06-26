@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
@@ -23,9 +24,9 @@ import javax.validation.constraints.Size;
 @ApiModel(value="AddCourseDto", description="新增课程基本信息")
 public class AddCourseDto {
 
-    @NotEmpty(message = "新增课程名称不能为空", groups = ValidationGroups.Insert.class)
-    @NotEmpty(message = "修改课程名称不能为空", groups = ValidationGroups.Update.class)
-    //@NotEmpty(message = "课程名称不能为空")
+    //@NotEmpty(message = "新增课程名称不能为空", groups = ValidationGroups.Insert.class)
+    //@NotEmpty(message = "修改课程名称不能为空", groups = ValidationGroups.Update.class)
+    @NotEmpty(message = "课程名称不能为空")
     @ApiModelProperty(value = "课程名称", required = true)
     private String name;
 
@@ -61,8 +62,10 @@ public class AddCourseDto {
     @ApiModelProperty(value = "收费规则，对应数据字典", required = true)
     private String charge;
 
+    @Min(message = "价格不能为负数", value = 0)
     @ApiModelProperty(value = "价格")
     private Float price;
+    @Min(message = "价格不能为负数", value = 0)
     @ApiModelProperty(value = "原价")
     private Float originalPrice;
 

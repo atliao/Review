@@ -16,9 +16,9 @@ PUT {{content_host}}/content/course
 Content-Type: application/json
 
 {
-  "id": 3,
+  "id": 123,
   "companyName": null,
-  "name": "SpringBoot核心(test-put)",
+  "name": "liao修改课",
   "users": "Spring Boot初学者",
   "tags": "Spring项目的快速构建",
   "mt": "1-3",
@@ -39,7 +39,7 @@ POST {{content_host}}/content/course
 Content-Type: application/json
 
 {
-  "name": "liao的测试课",
+  "name": "liao的测试课3",
   "users": "初级人员",
   "tags": "tagstagstags",
   "mt": "1-1",
@@ -49,7 +49,7 @@ Content-Type: application/json
   "description": "java网络编程高级(liao)",
   "pic": "fdsf",
   "charge": "201001",
-  "price": -60,
+  "price": 60,
   "originalPrice":100,
   "qq": "22333",
   "wechat": "223344",
@@ -58,11 +58,11 @@ Content-Type: application/json
 }
 
 ###
-GET {{content_host}}/content/course/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsieHVlY2hlbmctcGx1cyJdLCJ1c2VyX25hbWUiOiJ7XCJjb21wYW55SWRcIjpcIjEyMzIxNDE0MjVcIixcImNyZWF0ZVRpbWVcIjpcIjIwMjItMDktMjhUMDg6MzI6MDNcIixcImlkXCI6XCI1MlwiLFwibmFtZVwiOlwiTeiAgeW4iFwiLFwic2V4XCI6XCIxXCIsXCJzdGF0dXNcIjpcIlwiLFwidXNlcm5hbWVcIjpcInQxXCIsXCJ1dHlwZVwiOlwiMTAxMDAyXCJ9Iiwic2NvcGUiOlsiYWxsIl0sImV4cCI6MTY4MjM0NjU5NCwiYXV0aG9yaXRpZXMiOlsidGVzdCJdLCJqdGkiOiJiOWE3Y2RkYi1kMzZjLTQ1M2QtYTBiZC05ODJiYzc0OTBiMGIiLCJjbGllbnRfaWQiOiJYY1dlYkFwcCJ9.dNOxtr-KxSH7YVrazfk0k_rElaR5nRGjEJ7uGphI-S0
+GET {{content_host}}/content/course/123
+#Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsieHVlY2hlbmctcGx1cyJdLCJ1c2VyX25hbWUiOiJ7XCJjb21wYW55SWRcIjpcIjEyMzIxNDE0MjVcIixcImNyZWF0ZVRpbWVcIjpcIjIwMjItMDktMjhUMDg6MzI6MDNcIixcImlkXCI6XCI1MlwiLFwibmFtZVwiOlwiTeiAgeW4iFwiLFwic2V4XCI6XCIxXCIsXCJzdGF0dXNcIjpcIlwiLFwidXNlcm5hbWVcIjpcInQxXCIsXCJ1dHlwZVwiOlwiMTAxMDAyXCJ9Iiwic2NvcGUiOlsiYWxsIl0sImV4cCI6MTY4MjM0NjU5NCwiYXV0aG9yaXRpZXMiOlsidGVzdCJdLCJqdGkiOiJiOWE3Y2RkYi1kMzZjLTQ1M2QtYTBiZC05ODJiYzc0OTBiMGIiLCJjbGllbnRfaWQiOiJYY1dlYkFwcCJ9.dNOxtr-KxSH7YVrazfk0k_rElaR5nRGjEJ7uGphI-S0
 
 ###
-GET {{content_host}}/content/teachplan/117/tree-nodes
+GET {{content_host}}/content/teachplan/1/tree-nodes
 
 ###
 GET {{gateway_host}}/content/course/40

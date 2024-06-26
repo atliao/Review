@@ -2,6 +2,7 @@ package com.la.xuecheng.content.model.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import org.springframework.validation.annotation.Validated;
 
 import java.io.Serializable;
 

@@ -11,6 +11,7 @@ import com.la.xuecheng.content.mapper.CourseCategoryMapper;
 import com.la.xuecheng.content.mapper.CourseMarketMapper;
 import com.la.xuecheng.content.model.dto.AddCourseDto;
 import com.la.xuecheng.content.model.dto.CourseBaseInfoDto;
+import com.la.xuecheng.content.model.dto.EditCourseDto;
 import com.la.xuecheng.content.model.dto.QueryCourseParamsDto;
 import com.la.xuecheng.content.model.po.CourseBase;
 import com.la.xuecheng.content.model.po.CourseMarket;
@@ -23,6 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+
+import static jdk.nashorn.internal.runtime.Debug.id;
 
 /**
  * @author LA
@@ -87,16 +90,36 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
         courseMarket.setId(id);
         saveCourseMarket(courseMarket);
 
-        CourseBaseInfoDto dto = new CourseBaseInfoDto();
-        BeanUtils.copyProperties(courseBase, dto);
-        CourseMarket market = courseMarketMapper.selectById(id);
-        BeanUtils.copyProperties(market, dto);
-
-        dto.setStName(courseCategoryMapper.selectById(courseBase.getSt()).getName());
-        dto.setMtName(courseCategoryMapper.selectById(courseBase.getMt()).getName());
-
-        return dto;
+        return getCourseBaseInfo(id);
     }
+
+    @Override
+    //查询课程详细信息
+    public CourseBaseInfoDto getCourseBaseInfo(Long courseId){
+
+        //从课程基本信息表查询
+        CourseBase courseBase = courseBaseMapper.selectById(courseId);
+        if(courseBase == null){
+            return null;
+        }
+
+        //从课程营销表查询
+        CourseMarket courseMarket = courseMarketMapper.selectById(courseId);
+
+        //组装在一起
+        CourseBaseInfoDto courseBaseInfoDto = new CourseBaseInfoDto();
+        BeanUtils.copyProperties(courseBase, courseBaseInfoDto);
+        if(courseMarket != null){
+            BeanUtils.copyProperties(courseMarket, courseBaseInfoDto);
+        }
+        //根据分类表查分类名称
+        String mtName = courseCategoryMapper.selectById(courseBase.getMt()).getName();
+        String stName = courseCategoryMapper.selectById(courseBase.getSt()).getName();
+        courseBaseInfoDto.setMtName(mtName);
+        courseBaseInfoDto.setStName(stName);
+        return courseBaseInfoDto;
+    }
+
 
     public void saveCourseMarket(CourseMarket courseMarket){
 
@@ -123,6 +146,42 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
                 XueChengPlusException.cast("更新market失败");
             }
         }
+    }
 
+    @Override
+    public CourseBaseInfoDto QueryCourseBaseById(Long id){
+        return getCourseBaseInfo(id);
+    }
+
+    @Transactional
+    @Override
+    public CourseBaseInfoDto updateCourseBase(Long companyId, EditCourseDto editCourseDto){
+        Long id = editCourseDto.getId();
+        CourseBase courseBase = courseBaseMapper.selectById(id);
+        if(courseBase == null){
+            XueChengPlusException.cast("课程不存在");
+        }
+
+        if(!courseBase.getCompanyId().equals(companyId)){
+            XueChengPlusException.cast("非本机构不能修改");
+        }
+
+        BeanUtils.copyProperties(editCourseDto, courseBase);
+        courseBase.setChangeDate(LocalDateTime.now());
+        courseBase.setChangePeople("liao");
+
+        int res1 = courseBaseMapper.updateById(courseBase);
+        if(res1 <= 0){
+            XueChengPlusException.cast("更新课程信息失败");
+        }
+
+        CourseMarket courseMarket = new CourseMarket();
+        BeanUtils.copyProperties(editCourseDto, courseMarket);
+        int res2 = courseMarketMapper.updateById(courseMarket);
+        if(res2 <= 0){
+            XueChengPlusException.cast("更新营销信息失败");
+        }
+
+        return getCourseBaseInfo(id);
     }
 }
