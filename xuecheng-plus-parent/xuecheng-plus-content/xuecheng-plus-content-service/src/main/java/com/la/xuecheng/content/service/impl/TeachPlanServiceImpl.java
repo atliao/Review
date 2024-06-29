@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.la.xuecheng.content.mapper.TeachplanMapper;
 import com.la.xuecheng.content.mapper.TeachplanMediaMapper;
+import com.la.xuecheng.content.model.dto.SaveTeachPlanDto;
 import com.la.xuecheng.content.model.dto.TeachPlanTreeNode;
 import com.la.xuecheng.content.model.po.Teachplan;
 import com.la.xuecheng.content.model.po.TeachplanMedia;
@@ -11,6 +12,7 @@ import com.la.xuecheng.content.service.TeachPlanService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -59,6 +61,35 @@ public class TeachPlanServiceImpl implements TeachPlanService {
         }
         return childrenNodes;
     }
+
+    @Transactional
+    @Override
+    public void saveTeachPlan(SaveTeachPlanDto saveTeachPlanDto){
+        Long id = saveTeachPlanDto.getId();
+        if(id == null){
+            Teachplan teachplan = new Teachplan();
+            BeanUtils.copyProperties(saveTeachPlanDto, teachplan);
+            Long parentId = saveTeachPlanDto.getParentid();
+            Long courseId = saveTeachPlanDto.getCourseId();
+            Integer max = teachplanMapper.selectMaxOrderBy(courseId, parentId);
+            teachplan.setOrderby(max == null ? 1 : max+1);
+            teachplanMapper.insert(teachplan);
+        }else {
+            Teachplan teachPlan = teachplanMapper.selectById(id);
+            BeanUtils.copyProperties(saveTeachPlanDto, teachPlan);
+            teachplanMapper.updateById(teachPlan);
+        }
+    }
+
+    @Transactional
+    @Override
+    public void deleteTeachPlan(Long id) {
+        Teachplan teachplan = teachplanMapper.selectById(id);
+        if(teachplan != null){
+            teachplanMapper.deleteById(id);
+        }
+    }
+
 
 
 }

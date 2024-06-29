@@ -89,4 +89,8 @@
 		order by one.orderby,two.orderby
     </select>
 
+    <select id="selectMaxOrderBy" resultType="java.lang.Integer">
+        select MAX(orderby) from teachplan where course_id = #{courseId} and parentid = #{parentId}
+    </select>
+
 </mapper>
